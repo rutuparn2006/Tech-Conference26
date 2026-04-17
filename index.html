@@ -3,57 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TechConf 2026 | Event Registration with Firebase</title>
+  <title>TechConf 2026 | Register Now - The Premier Tech Event</title>
+  <meta name="description" content="Join 2,000+ tech leaders at TechConf 2026. Register now for 3 days of innovation, networking, and groundbreaking insights.">
+  <meta name="keywords" content="tech conference, technology event, registration, techconf 2026">
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-
-    // ============================================================
-    // 🔥 FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN!
-    // ============================================================
-    // To get your config:
-    // 1. Go to https://console.firebase.google.com/
-    // 2. Create a new project or select existing one
-    // 3. Add a web app (click the web icon </>)
-    // 4. Copy the configuration object below
-    // ============================================================
-    
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY_HERE",
-      authDomain: "your-project-id.firebaseapp.com",
-      projectId: "your-project-id",
-      storageBucket: "your-project-id.firebasestorage.app",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-    
-    // IMPORTANT: Replace the placeholder values above with your actual Firebase config
-    // Example:
-    // apiKey: "AIzaSyB6xQ7QvZ7k9L2mN3pR4sT5uV6wX7yZ8aB1cD2eF",
-    // authDomain: "tech-conference-2026.firebaseapp.com",
-    // projectId: "tech-conference-2026",
-    // etc.
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    // Make db available globally for the main script
-    window.db = db;
-    window.collection = collection;
-    window.addDoc = addDoc;
-    window.serverTimestamp = serverTimestamp;
-    
-    console.log("🔥 Firebase initialized. Check your config if you see errors.");
-  </script>
   
   <style>
     * {
@@ -77,10 +35,6 @@
       --success: #059669;
       --error: #DC2626;
       --warning: #F59E0B;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     }
 
     body {
@@ -260,14 +214,14 @@
       background: white;
       padding: 2rem;
       border-radius: 24px;
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       transition: transform 0.2s, box-shadow 0.2s;
       border: 1px solid var(--gray-200);
     }
 
     .feature-card:hover {
       transform: translateY(-4px);
-      box-shadow: var(--shadow-xl);
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     }
 
     .feature-icon {
@@ -316,7 +270,7 @@
       background: white;
       border-radius: 32px;
       padding: 2rem;
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
       border: 1px solid var(--gray-200);
     }
 
@@ -378,7 +332,7 @@
       background: white;
       border-radius: 32px;
       padding: 2rem;
-      box-shadow: var(--shadow-xl);
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
       border: 1px solid var(--gray-200);
     }
 
@@ -430,8 +384,7 @@
       box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
     }
 
-    .form-group input.error,
-    .form-group select.error {
+    .form-group input.error {
       border-color: var(--error);
     }
 
@@ -461,7 +414,7 @@
       display: block;
     }
 
-    /* Password strength indicator */
+    /* Password strength */
     .password-strength {
       margin-top: 0.5rem;
       display: flex;
@@ -481,13 +434,8 @@
     .strength-bar-fill {
       height: 100%;
       width: 0%;
-      transition: width 0.3s, background 0.3s;
+      transition: width 0.3s;
       border-radius: 4px;
-    }
-
-    .strength-text {
-      font-size: 0.7rem;
-      color: var(--gray-600);
     }
 
     .submit-btn {
@@ -510,8 +458,7 @@
 
     .submit-btn:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-      filter: brightness(1.05);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
     }
 
     .submit-btn .spinner {
@@ -536,7 +483,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Firebase Error */
     .firebase-error {
       background: #FEF2F2;
       border-left: 4px solid var(--error);
@@ -636,16 +582,16 @@
       <div class="logo">TechConf 2026</div>
       <div class="nav-links">
         <a href="#">Home</a>
-        <a href="#">Speakers</a>
-        <a href="#">Schedule</a>
+        <a href="#event-details">Speakers</a>
+        <a href="#register-section">Schedule</a>
         <button class="btn-outline" onclick="document.getElementById('register-section').scrollIntoView({behavior: 'smooth'})">Register</button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Banner with Image -->
+  <!-- Hero Banner -->
   <section class="hero">
-    <img class="hero-bg-image" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&h=900&fit=crop" alt="Conference audience">
+    <img class="hero-bg-image" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&h=900&fit=crop" alt="Tech conference audience">
     <div class="hero-content">
       <span class="hero-badge">🌟 The Premier Tech Event of 2026</span>
       <h1>Where <span>Innovation</span><br>Meets Opportunity</h1>
@@ -669,12 +615,12 @@
     <!-- Event Details + Registration Form -->
     <div class="event-layout" id="register-section">
       <!-- Left: Event Details -->
-      <div class="event-info">
+      <div class="event-info" id="event-details">
         <h2>Event Details</h2>
         <ul class="info-list">
           <li><i class="fas fa-calendar-week"></i> <span><strong>Date:</strong> June 18–20, 2026</span></li>
-          <li><i class="fas fa-map-marker-alt"></i> <span><strong>Venue:</strong>Visweswaray Convention center,Mumbai</span></li>
-          <li><i class="fas fa-clock"></i> <span><strong>Time:</strong> 9:00 AM – 6:00 PM (IST)</span></li>
+          <li><i class="fas fa-map-marker-alt"></i> <span><strong>Venue:</strong> San Francisco Convention Center</span></li>
+          <li><i class="fas fa-clock"></i> <span><strong>Time:</strong> 9:00 AM – 6:00 PM (PDT)</span></li>
           <li><i class="fas fa-ticket-alt"></i> <span><strong>Price:</strong> $299 Early Bird | $499 Regular</span></li>
         </ul>
         <h3 style="margin: 1.5rem 0 0.75rem">✨ Featured Speakers</h3>
@@ -686,7 +632,7 @@
         <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--gray-600);"><i class="fas fa-check-circle" style="color: var(--success);"></i> Certificate of participation included</p>
       </div>
 
-      <!-- Right: Registration Form with Email & Mobile Validation + Firebase Storage -->
+      <!-- Right: Registration Form -->
       <div class="reg-card" id="formSection">
         <h2>Secure Your Seat</h2>
         <p>Fill out the form below to register for TechConf 2026</p>
@@ -700,21 +646,21 @@
         <div class="form-group">
           <label>Email Address <span class="required">*</span></label>
           <input type="email" id="email" placeholder="hello@example.com">
-          <span class="error-msg" id="emailError">Please enter a valid email address (e.g., name@domain.com).</span>
+          <span class="error-msg" id="emailError">Please enter a valid email address.</span>
           <span class="valid-msg" id="emailValid">✓ Email format looks good!</span>
         </div>
         
         <div class="form-group">
           <label>Mobile Number <span class="required">*</span></label>
           <input type="tel" id="mobile" placeholder="+1 123 456 7890">
-          <span class="error-msg" id="mobileError">Please enter a valid mobile number (8-15 digits, numbers only).</span>
+          <span class="error-msg" id="mobileError">Enter a valid mobile number (8-15 digits).</span>
           <span class="valid-msg" id="mobileValid">✓ Valid mobile number format.</span>
         </div>
         
         <div class="form-group">
           <label>Create Password <span class="required">*</span></label>
           <input type="password" id="password" placeholder="Create a strong password">
-          <span class="error-msg" id="passwordError">Password must be at least 8 characters with 1 uppercase, 1 lowercase, 1 number.</span>
+          <span class="error-msg" id="passwordError">Password must be at least 8 characters with uppercase, lowercase & number.</span>
           <div class="password-strength">
             <div class="strength-bar"><div class="strength-bar-fill" id="strengthFill"></div></div>
             <span class="strength-text" id="strengthText">Enter password</span>
@@ -752,7 +698,7 @@
           <textarea id="notes" rows="2" placeholder="Dietary restrictions, accessibility needs, or questions..."></textarea>
         </div>
         
-        <button class="submit-btn" id="submitBtn">Register Now <span class="spinner"></span><i class="fas fa-arrow-right"></i></button>
+        <button class="submit-btn" id="submitBtn">Register Now <span class="spinner"></span> <i class="fas fa-arrow-right"></i></button>
         <div id="firebaseError" class="firebase-error"></div>
       </div>
     </div>
@@ -778,43 +724,41 @@
     <p style="margin-top: 0.5rem;"><a href="#" style="color: var(--gray-400); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: var(--gray-400); text-decoration: none;">Terms of Service</a></p>
   </footer>
 
+  <!-- Firebase Configuration and Main Script -->
   <script type="module">
-    // Import Firebase (already initialized in the module above)
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    
     // ============================================================
     // 🔥 FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN!
-    // Get this from Firebase Console > Project Settings > General
     // ============================================================
-   const firebaseConfig = {
-  apiKey: "AIzaSyCK74_sA2tnd6U957bKKhGlD2GoQqvVJrs",
-  authDomain: "tech-conference-2026.firebaseapp.com",
-  projectId: "tech-conference-2026",
-  storageBucket: "tech-conference-2026.firebasestorage.app",
-  messagingSenderId: "339554087189",
-  appId: "1:339554087189:web:9908fbcbc5a15bd839391c",
-  measurementId: "G-11EHMGQ124"
-};
+    // To get your config:
+    // 1. Go to https://console.firebase.google.com/
+    // 2. Create a new project or select existing one
+    // 3. Add a web app (click the web icon </>)
+    // 4. Copy the configuration object below
+    // 5. Enable Firestore Database in test mode
     
-    // Initialize Firebase (if not already initialized)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY_HERE",
+      authDomain: "your-project-id.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project-id.firebasestorage.app",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    
+    // Initialize Firebase
     let db;
     try {
-      const app = initializeApp(firebaseConfig, "mainApp");
+      const app = initializeApp(firebaseConfig);
       db = getFirestore(app);
       console.log("✅ Firebase connected successfully!");
     } catch (error) {
-      console.warn("Firebase already initialized or config error:", error);
-      // Try to get existing instance
-      const { getApp } = await import("https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js");
-      try {
-        const existingApp = getApp();
-        db = getFirestore(existingApp);
-      } catch (e) {
-        console.error("❌ Please configure Firebase with your actual credentials!");
-        document.getElementById('firebaseError').textContent = "⚠️ Firebase not configured. Please add your Firebase config credentials.";
-        document.getElementById('firebaseError').classList.add('show');
-      }
+      console.error("❌ Firebase config error:", error);
+      document.getElementById('firebaseError').innerHTML = "⚠️ Firebase configuration error. Please check your Firebase credentials.";
+      document.getElementById('firebaseError').classList.add('show');
     }
     
     // DOM Elements
@@ -834,15 +778,12 @@
 
     // Validation Functions
     function validateEmail(email) {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      return emailRegex.test(email.trim());
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim());
     }
 
     function validateMobile(mobile) {
       let digits = mobile.replace(/[\s\-\+\(\)]/g, '');
-      if (digits.length === 12 && digits.startsWith('91')) {
-        digits = digits.slice(2);
-      }
+      if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2);
       return digits.length >= 8 && digits.length <= 15 && /^\d+$/.test(digits);
     }
 
@@ -852,31 +793,27 @@
       if (/[A-Z]/.test(password)) strength++;
       if (/[a-z]/.test(password)) strength++;
       if (/[0-9]/.test(password)) strength++;
-      return { strength, isValid: strength >= 3 && password.length >= 8 };
+      return strength >= 3 && password.length >= 8;
     }
 
     function updatePasswordStrength() {
       const password = passwordInput.value;
-      const { strength, isValid } = validatePasswordStrength(password);
+      const isValid = validatePasswordStrength(password);
       const fillBar = document.getElementById('strengthFill');
       const strengthText = document.getElementById('strengthText');
       
       if (password.length === 0) {
         fillBar.style.width = '0%';
         strengthText.textContent = 'Enter password';
-      } else if (strength === 1) {
+      } else if (password.length < 8) {
         fillBar.style.width = '25%';
         fillBar.style.background = 'var(--error)';
-        strengthText.textContent = 'Weak';
-      } else if (strength === 2) {
+        strengthText.textContent = 'Too short';
+      } else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
         fillBar.style.width = '50%';
         fillBar.style.background = 'var(--warning)';
-        strengthText.textContent = 'Fair';
-      } else if (strength === 3) {
-        fillBar.style.width = '75%';
-        fillBar.style.background = '#8B5CF6';
-        strengthText.textContent = 'Good';
-      } else if (strength >= 4) {
+        strengthText.textContent = 'Add uppercase & number';
+      } else {
         fillBar.style.width = '100%';
         fillBar.style.background = 'var(--success)';
         strengthText.textContent = 'Strong';
@@ -966,16 +903,11 @@
     }
 
     function validateAllFields() {
-      const isNameValid = validateName();
-      const isEmailValid = validateEmailField();
-      const isMobileValid = validateMobileField();
-      const isPasswordValid = updatePasswordStrength();
-      const isConfirmValid = validatePasswordsMatch();
-      
-      return isNameValid && isEmailValid && isMobileValid && isPasswordValid && isConfirmValid;
+      return validateName() && validateEmailField() && validateMobileField() && 
+             updatePasswordStrength() && validatePasswordsMatch();
     }
 
-    // Event Listeners for Real-time Validation
+    // Event Listeners
     fullnameInput.addEventListener('input', validateName);
     emailInput.addEventListener('input', validateEmailField);
     mobileInput.addEventListener('input', validateMobileField);
@@ -985,81 +917,59 @@
     });
     confirmInput.addEventListener('input', validatePasswordsMatch);
 
-    // Save registration data to Firebase Firestore
-    async function saveRegistrationToFirebase(registrationData) {
-      if (!db) {
-        throw new Error("Firebase not initialized. Please check your configuration.");
-      }
+    // Save to Firebase
+    async function saveToFirebase(data) {
+      if (!db) throw new Error("Firebase not initialized");
       const registrationsRef = collection(db, "registrations");
       const docRef = await addDoc(registrationsRef, {
-        ...registrationData,
+        ...data,
         registeredAt: serverTimestamp(),
-        status: "confirmed",
-        createdAt: new Date().toISOString()
+        status: "confirmed"
       });
       return docRef.id;
     }
 
-    // Form Submission Handler with Firebase Storage
+    // Submit Handler
     async function handleRegistration(e) {
       e.preventDefault();
-      
       firebaseErrorDiv.classList.remove('show');
-      firebaseErrorDiv.textContent = '';
       
       if (!validateAllFields()) {
-        firebaseErrorDiv.textContent = 'Please fix all validation errors before submitting.';
+        firebaseErrorDiv.textContent = 'Please fix all errors before submitting.';
         firebaseErrorDiv.classList.add('show');
         return;
       }
       
-      // Collect registration data
       const registrationData = {
         fullName: fullnameInput.value.trim(),
         email: emailInput.value.trim().toLowerCase(),
         mobile: mobileInput.value.trim(),
-        password: "[SECURELY HASHED - Not stored in plain text in production]",
         ticketType: ticketTypeSelect.value,
         referralSource: referralSelect.value,
         additionalNotes: notesTextarea.value.trim() || "",
         registeredAtClient: new Date().toISOString()
       };
       
-      // Show loading state
       submitBtn.classList.add('loading');
-      submitBtn.disabled = true;
       
       try {
-        // Save to Firebase
-        const docId = await saveRegistrationToFirebase(registrationData);
-        
-        // Display success message with document ID
-        if (docIdDisplay) {
-          docIdDisplay.textContent = `Registration ID: ${docId.substring(0, 8)}...`;
-        }
-        
-        // Hide form, show success box
+        const docId = await saveToFirebase(registrationData);
+        docIdDisplay.textContent = `Registration ID: ${docId.substring(0, 8)}...`;
         formSection.style.display = 'none';
         successBox.classList.add('show');
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        console.log("✅ Registration saved to Firebase! Document ID:", docId);
-        console.log("📊 Registration data:", registrationData);
-        
+        console.log("✅ Saved to Firebase! ID:", docId);
       } catch (error) {
-        console.error("Firebase save error:", error);
-        firebaseErrorDiv.textContent = `❌ Failed to save registration: ${error.message}. Please check your Firebase configuration.`;
+        firebaseErrorDiv.innerHTML = `❌ Failed to save: ${error.message}. Check Firebase config.`;
         firebaseErrorDiv.classList.add('show');
       } finally {
         submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
       }
     }
     
     submitBtn.addEventListener('click', handleRegistration);
     
-    console.log("🚀 Firebase Firestore is ready! Registrations will be stored in the 'registrations' collection.");
-    console.log("📝 To view your data: Go to Firebase Console → Firestore Database → registrations collection");
+    console.log("🚀 Website ready! Registrations will appear in Firebase Console → Firestore → registrations");
   </script>
 </body>
 </html>
