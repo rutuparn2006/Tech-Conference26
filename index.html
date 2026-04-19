@@ -621,7 +621,7 @@
           <li><i class="fas fa-calendar-week"></i> <span><strong>Date:</strong> June 18–20, 2026</span></li>
           <li><i class="fas fa-map-marker-alt"></i> <span><strong>Venue:</strong> San Francisco Convention Center</span></li>
           <li><i class="fas fa-clock"></i> <span><strong>Time:</strong> 9:00 AM – 6:00 PM (PDT)</span></li>
-          <li><i class="fas fa-ticket-alt"></i> <span><strong>Price:</strong> $299 Early Bird | $499 Regular</span></li>
+          <li><i class="fas fa-ticket-alt"></i> <span><strong>Price:</strong> ₹299 Early Bird | ₹499 Regular</span></li>
         </ul>
         <h3 style="margin: 1.5rem 0 0.75rem">✨ Featured Speakers</h3>
         <div class="speaker-list">
@@ -677,9 +677,9 @@
         <div class="form-group">
           <label>Ticket Type</label>
           <select id="ticketType">
-            <option value="Early Bird — $299">🎟️ Early Bird – $299</option>
-            <option value="Regular — $499">🎫 Regular – $499</option>
-            <option value="VIP Pass — $799">👑 VIP Pass – $799</option>
+            <option value="Early Bird — ₹299">🎟️ Early Bird – ₹299</option>
+            <option value="Regular — ₹499">🎫 Regular – ₹499</option>
+            <option value="VIP Pass — ₹799">👑 VIP Pass – ₹799</option>
           </select>
         </div>
         
@@ -779,13 +779,13 @@
 
     // Validation Functions
     function validateEmail(email) {
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim());
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}₹/.test(email.trim());
     }
 
     function validateMobile(mobile) {
       let digits = mobile.replace(/[\s\-\+\(\)]/g, '');
       if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2);
-      return digits.length >= 8 && digits.length <= 15 && /^\d+$/.test(digits);
+      return digits.length >= 8 && digits.length <= 15 && /^\d+₹/.test(digits);
     }
 
     function validatePasswordStrength(password) {
@@ -955,13 +955,13 @@
       
       try {
         const docId = await saveToFirebase(registrationData);
-        docIdDisplay.textContent = `Registration ID: ${docId.substring(0, 8)}...`;
+        docIdDisplay.textContent = `Registration ID: ₹{docId.substring(0, 8)}...`;
         formSection.style.display = 'none';
         successBox.classList.add('show');
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
         console.log("✅ Saved to Firebase! ID:", docId);
       } catch (error) {
-        firebaseErrorDiv.innerHTML = `❌ Failed to save: ${error.message}. Check Firebase config.`;
+        firebaseErrorDiv.innerHTML = `❌ Failed to save: ₹{error.message}. Check Firebase config.`;
         firebaseErrorDiv.classList.add('show');
       } finally {
         submitBtn.classList.remove('loading');
