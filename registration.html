@@ -715,7 +715,7 @@
     <div class="cta-section">
       <h2>Ready to shape the future?</h2>
       <p>Join thousands of innovators already registered.</p>
-      <button class="btn-outline" style="background: white; color: var(--dark); margin-top: 1rem; border: none; padding: 0.75rem 2rem; border-radius: 40px; cursor: pointer;" onclick="window.location.href='login.html'">Sign In to Another Account →</button>
+      <button class="btn-outline" style="background: white; color: var(--dark); margin-top: 1rem; border: none; padding: 0.75rem 2rem; border-radius: 40px; cursor: pointer;" onclick="window.location.href='main.html'">Sign In to Another Account →</button>
     </div>
   </div>
 
@@ -743,7 +743,7 @@
     // Check authentication
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
-      window.location.href = 'login.html';
+      window.location.href = 'main.html';
     }
     
     // Display user email
@@ -873,12 +873,12 @@
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
       localStorage.removeItem('currentUser');
-      window.location.href = 'login.html';
+      window.location.href = 'main.html';
     });
     
     document.getElementById('goToLoginBtn')?.addEventListener('click', () => {
       localStorage.removeItem('currentUser');
-      window.location.href = 'login.html';
+      window.location.href = 'main.html';
     });
   </script>
 </body>
