@@ -501,6 +501,23 @@
       text-decoration: none;
     }
 
+    /* Demo Mode Banner */
+    .demo-banner {
+      background: #FEF3C7;
+      border-bottom: 2px solid var(--gold);
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #92400E;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .demo-banner i {
+      margin-right: 8px;
+    }
+
     @media (max-width: 700px) {
       .hero-banner {
         height: 70vh;
@@ -526,6 +543,12 @@
   </style>
 </head>
 <body>
+
+  <!-- Demo Mode Notice -->
+  <div class="demo-banner" id="demoBanner">
+    <i class="fas fa-info-circle"></i> 
+    <span id="demoMessage">Loading Firebase connection status...</span>
+  </div>
 
   <!-- ========== IMAGE BANNER SECTION ========== -->
   <div class="hero-banner">
@@ -692,12 +715,13 @@
     <p>For queries, contact <a href="mailto:info@futuretech2026.in">info@futuretech2026.in</a></p>
   </footer>
 
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <script type="module">
     // ============================================================
-    // 🔥 FIREBASE CONFIGURATION - TechConf 2026 (LIVE DATABASE)
+    // 🔥 FIREBASE CONFIGURATION - TechConf 2026
     // ============================================================
-    // This is the actual Firebase configuration from TechConf 2026
-    // Data will be stored in the "registrations" collection
     
     const firebaseConfig = {
       apiKey: "AIzaSyCK74_sA2tnd6U957bKKhGlD2GoQqvVJrs",
@@ -711,12 +735,27 @@
     
     // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
     
-    // Initialize Firebase with TechConf 2026 config
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    console.log("✅ Firebase connected successfully to TechConf 2026!");
+    let db;
+    let firebaseAvailable = false;
+    const demoBannerSpan = document.getElementById('demoMessage');
+    
+    try {
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      firebaseAvailable = true;
+      console.log("✅ Firebase connected successfully to TechConf 2026!");
+      demoBannerSpan.innerHTML = '<i class="fas fa-check-circle"></i> ✅ Connected to TechConf 2026 Firebase Database';
+      demoBannerSpan.style.color = '#065F46';
+      document.getElementById('demoBanner').style.background = '#D1FAE5';
+    } catch (error) {
+      console.error("❌ Firebase connection error:", error);
+      firebaseAvailable = false;
+      demoBannerSpan.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ⚠️ Running in Demo Mode - Firebase connection failed. Data will be saved locally.';
+      demoBannerSpan.style.color = '#92400E';
+    }
     
     // DOM elements
     const fnameInput = document.getElementById('fname');
@@ -731,6 +770,9 @@
     const successBox = document.getElementById('success');
     const firebaseErrorDiv = document.getElementById('firebaseError');
     const docIdDisplay = document.getElementById('docIdDisplay');
+    
+    // Local storage for demo mode
+    let localRegistrations = JSON.parse(localStorage.getItem('local_registrations') || '[]');
     
     // Validation functions
     function validateEmail(value) {
@@ -760,16 +802,38 @@
       return isValid;
     }
     
-    // Save to Firebase (TechConf 2026 database)
-    async function saveToFirebase(data) {
-      const registrationsRef = collection(db, "registrations");
-      const docRef = await addDoc(registrationsRef, { 
-        ...data, 
-        registeredAt: serverTimestamp(), 
-        status: "confirmed",
-        source: "FutureTechForum2026"
-      });
-      return docRef.id;
+    // Save to Firebase (TechConf 2026 database) or Local Storage
+    async function saveRegistration(data) {
+      if (firebaseAvailable && db) {
+        try {
+          const registrationsRef = collection(db, "registrations");
+          const docRef = await addDoc(registrationsRef, { 
+            ...data, 
+            registeredAt: serverTimestamp(), 
+            status: "confirmed",
+            source: "FutureTechForum2026"
+          });
+          return { success: true, id: docRef.id, source: 'firebase' };
+        } catch (firebaseError) {
+          console.warn("Firebase save failed, falling back to local storage:", firebaseError);
+          // Fall back to local storage
+          return saveToLocalStorage(data);
+        }
+      } else {
+        return saveToLocalStorage(data);
+      }
+    }
+    
+    function saveToLocalStorage(data) {
+      const registration = {
+        ...data,
+        id: 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+        registeredAt: new Date().toISOString(),
+        status: "confirmed"
+      };
+      localRegistrations.push(registration);
+      localStorage.setItem('local_registrations', JSON.stringify(localRegistrations));
+      return { success: true, id: registration.id, source: 'local' };
     }
     
     // Submit handler
@@ -795,23 +859,31 @@
           eventName: "Future of Technology Forum 2026"
         };
         
-        const docId = await saveToFirebase(registrationData);
+        const result = await saveRegistration(registrationData);
         
-        if (docIdDisplay) {
-          docIdDisplay.textContent = `Registration ID: ${docId.substring(0, 8)}...`;
+        if (result.success) {
+          if (docIdDisplay) {
+            if (result.source === 'firebase') {
+              docIdDisplay.textContent = `Registration ID: ${result.id.substring(0, 8)}... (Saved to Firebase)`;
+            } else {
+              docIdDisplay.textContent = `Registration ID: ${result.id} (Saved Locally - Demo Mode)`;
+            }
+          }
+          
+          // Hide form, show success message
+          formSection.style.display = 'none';
+          successBox.classList.add('show');
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          
+          console.log("✅ Registration saved! Source:", result.source, "ID:", result.id);
+          console.log("📧 Confirmation email would be sent to:", registrationData.email);
+        } else {
+          throw new Error("Save failed");
         }
         
-        // Hide form, show success message
-        formSection.style.display = 'none';
-        successBox.classList.add('show');
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        console.log("✅ Registration saved to TechConf 2026 Firebase! Document ID:", docId);
-        console.log("📧 Confirmation email would be sent to:", registrationData.email);
-        
       } catch (error) {
-        console.error("❌ Firebase error:", error);
-        firebaseErrorDiv.textContent = `Registration failed: ${error.message}. Please check your connection and try again.`;
+        console.error("❌ Registration error:", error);
+        firebaseErrorDiv.textContent = `Registration failed: ${error.message}. Please try again.`;
         firebaseErrorDiv.classList.add('show');
       } finally {
         submitBtn.classList.remove('loading');
@@ -826,7 +898,12 @@
     ticketSelect?.addEventListener('change', () => setFieldError('ticket', !ticketSelect.value));
     
     console.log("🚀 Future of Technology Forum registration page ready!");
-    console.log("📊 Data will be stored in TechConf 2026 Firestore → 'registrations' collection");
+    if (firebaseAvailable) {
+      console.log("📊 Data will be stored in TechConf 2026 Firestore → 'registrations' collection");
+    } else {
+      console.log("📊 Running in DEMO MODE - Data will be saved to localStorage");
+      console.log("💡 To enable Firebase, make sure you have proper CORS and network access");
+    }
   </script>
 </body>
 </html>
