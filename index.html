@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TechConf 2026 | Register Now - The Premier Tech Event</title>
-  <meta name="description" content="Join 2,000+ tech leaders at TechConf 2026. Register now for 3 days of innovation, networking, and groundbreaking insights.">
-  <meta name="keywords" content="tech conference, technology event, registration, techconf 2026">
+  <title>TechConf 2026 | Email Verification + Live Registration</title>
+  <meta name="description" content="Join 2,000+ tech leaders at TechConf 2026. Verify your email with security code for secure registration.">
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts & Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   
   <style>
     * {
@@ -44,7 +44,6 @@
       line-height: 1.5;
     }
 
-    /* Navigation */
     .navbar {
       position: fixed;
       top: 0;
@@ -107,10 +106,9 @@
       color: white;
     }
 
-    /* Hero Banner */
     .hero {
       position: relative;
-      min-height: 85vh;
+      min-height: 75vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -195,14 +193,12 @@
       color: rgba(255,255,255,0.6);
     }
 
-    /* Container */
     .container {
       max-width: 1280px;
       margin: 0 auto;
       padding: 4rem 2rem;
     }
 
-    /* Features Grid */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -217,6 +213,7 @@
       box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       transition: transform 0.2s, box-shadow 0.2s;
       border: 1px solid var(--gray-200);
+      text-align: center;
     }
 
     .feature-card:hover {
@@ -225,18 +222,18 @@
     }
 
     .feature-icon {
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
       background: var(--primary-light);
-      border-radius: 16px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.25rem;
+      margin: 0 auto 1.25rem;
     }
 
     .feature-icon i {
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: var(--primary);
     }
 
@@ -251,7 +248,17 @@
       line-height: 1.6;
     }
 
-    /* Two Column Layout */
+    .live-counter {
+      margin-top: 1rem;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--gray-100);
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      border-radius: 60px;
+    }
+
     .event-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -265,7 +272,6 @@
       }
     }
 
-    /* Event Details */
     .event-info {
       background: white;
       border-radius: 32px;
@@ -274,60 +280,28 @@
       border: 1px solid var(--gray-200);
     }
 
-    .event-info h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
+    .venue-image {
+      margin-top: 1.5rem;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .venue-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .venue-image img:hover {
+      transform: scale(1.02);
+    }
+    .image-caption {
+      font-size: 0.75rem;
+      color: var(--gray-600);
+      text-align: center;
+      margin-top: 0.5rem;
     }
 
-    .info-list {
-      list-style: none;
-      margin: 1.5rem 0;
-    }
-
-    .info-list li {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--gray-200);
-    }
-
-    .info-list li i {
-      width: 24px;
-      color: var(--primary);
-      font-size: 1.2rem;
-    }
-
-    .speaker-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .speaker {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem;
-      background: var(--gray-50);
-      border-radius: 60px;
-    }
-
-    .speaker-avatar {
-      width: 48px;
-      height: 48px;
-      background: var(--primary-light);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    /* Registration Card */
     .reg-card {
       background: white;
       border-radius: 32px;
@@ -336,19 +310,9 @@
       border: 1px solid var(--gray-200);
     }
 
-    .reg-card h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .reg-card p {
-      color: var(--gray-600);
-      margin-bottom: 1.5rem;
-    }
-
     .form-group {
       margin-bottom: 1.25rem;
+      position: relative;
     }
 
     .form-group label {
@@ -357,11 +321,6 @@
       margin-bottom: 0.5rem;
       font-size: 0.85rem;
       color: var(--gray-700);
-    }
-
-    .form-group label .required {
-      color: var(--error);
-      margin-left: 2px;
     }
 
     .form-group input,
@@ -376,6 +335,29 @@
       transition: all 0.2s;
     }
 
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .password-wrapper input {
+      flex: 1;
+      padding-right: 3rem;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--gray-600);
+      font-size: 1.1rem;
+      padding: 0;
+    }
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
@@ -384,45 +366,27 @@
       box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
     }
 
-    .form-group input.error {
-      border-color: var(--error);
-    }
-
-    .form-group input.valid {
-      border-color: var(--success);
-    }
-
     .error-msg {
       font-size: 0.75rem;
       color: var(--error);
       display: none;
       margin-top: 0.25rem;
     }
-
-    .error-msg.show {
-      display: block;
-    }
-
+    .error-msg.show { display: block; }
     .valid-msg {
       font-size: 0.75rem;
       color: var(--success);
       display: none;
       margin-top: 0.25rem;
     }
+    .valid-msg.show { display: block; }
 
-    .valid-msg.show {
-      display: block;
-    }
-
-    /* Password strength */
     .password-strength {
       margin-top: 0.5rem;
       display: flex;
       gap: 0.5rem;
       align-items: center;
-      flex-wrap: wrap;
     }
-
     .strength-bar {
       flex: 1;
       height: 4px;
@@ -430,12 +394,63 @@
       border-radius: 4px;
       overflow: hidden;
     }
-
     .strength-bar-fill {
       height: 100%;
       width: 0%;
       transition: width 0.3s;
       border-radius: 4px;
+    }
+
+    /* Verification Code Section */
+    .verification-section {
+      background: var(--gray-50);
+      border-radius: 20px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      border: 1px solid var(--gray-200);
+      display: none;
+    }
+    .verification-section.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    .code-input-group {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+    .code-input-group input {
+      flex: 1;
+      text-align: center;
+      letter-spacing: 4px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .verify-code-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .verify-code-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    .resend-code {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .verification-status {
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
     }
 
     .submit-btn {
@@ -455,12 +470,15 @@
       gap: 0.5rem;
       margin-top: 0.5rem;
     }
-
     .submit-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
     }
-
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
     .submit-btn .spinner {
       display: none;
       width: 20px;
@@ -470,15 +488,9 @@
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
     }
-
     .submit-btn.loading .spinner {
       display: inline-block;
     }
-    .submit-btn.loading {
-      pointer-events: none;
-      opacity: 0.8;
-    }
-
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -493,11 +505,8 @@
       color: #991B1B;
       display: none;
     }
-    .firebase-error.show {
-      display: block;
-    }
+    .firebase-error.show { display: block; }
 
-    /* Success Message */
     .success-box {
       display: none;
       background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
@@ -506,28 +515,19 @@
       text-align: center;
       margin-top: 2rem;
     }
-
     .success-box.show {
       display: block;
       animation: fadeIn 0.5s ease;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.98); }
       to { opacity: 1; transform: scale(1); }
     }
-
     .success-icon {
       font-size: 4rem;
       color: var(--success);
       margin-bottom: 1rem;
     }
-
-    .success-box h3 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-
     .ticket-id {
       font-size: 0.75rem;
       background: rgba(5,150,105,0.1);
@@ -535,10 +535,7 @@
       border-radius: 40px;
       display: inline-block;
       margin-top: 1rem;
-      font-family: monospace;
     }
-
-    /* CTA Section */
     .cta-section {
       background: linear-gradient(135deg, var(--dark), #2D2D5E);
       border-radius: 48px;
@@ -547,430 +544,313 @@
       color: white;
       margin-top: 3rem;
     }
-
-    .cta-section h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    /* Footer */
     .footer {
       background: var(--gray-900);
       color: var(--gray-400);
       padding: 3rem 2rem;
       text-align: center;
     }
-
     @media (max-width: 640px) {
-      .nav-links {
-        display: none;
-      }
-      .container {
-        padding: 2rem 1rem;
-      }
-      .feature-card {
-        padding: 1.5rem;
-      }
+      .nav-links { display: none; }
+      .container { padding: 2rem 1rem; }
     }
+    .rupee-symbol { font-weight: 600; }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="logo">TechConf 2026</div>
       <div class="nav-links">
         <a href="#">Home</a>
         <a href="#event-details">Speakers</a>
-        <a href="#register-section">Schedule</a>
         <button class="btn-outline" onclick="document.getElementById('register-section').scrollIntoView({behavior: 'smooth'})">Register</button>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Banner -->
   <section class="hero">
-    <img class="hero-bg-image" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&h=900&fit=crop" alt="Tech conference audience">
+    <img class="hero-bg-image" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&h=900&fit=crop" alt="Tech conference">
     <div class="hero-content">
-      <span class="hero-badge">🌟 The Premier Tech Event of 2026</span>
+      <span class="hero-badge">🔐 Email Verification Required</span>
       <h1>Where <span>Innovation</span><br>Meets Opportunity</h1>
-      <p class="hero-sub">Join 2,000+ tech leaders, developers, and founders for 3 days of groundbreaking insights and networking.</p>
+      <p class="hero-sub">Verify your email with a security code to secure your seat</p>
       <div class="hero-stats">
+        <div class="stat"><div class="stat-number" id="heroRegCount">0</div><div class="stat-label">Verified Attendees</div></div>
         <div class="stat"><div class="stat-number">50+</div><div class="stat-label">Speakers</div></div>
         <div class="stat"><div class="stat-number">30+</div><div class="stat-label">Sessions</div></div>
-        <div class="stat"><div class="stat-number">2000+</div><div class="stat-label">Attendees</div></div>
       </div>
     </div>
   </section>
 
   <div class="container">
-    <!-- Features Section -->
     <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-calendar-alt"></i></div><h3>Seamless Registration</h3><p>Register in under 2 minutes with our streamlined checkout process.</p></div>
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-chart-line"></i></div><h3>Real-time Analytics</h3><p>Track registrations and engagement with live dashboard insights.</p></div>
-      <div class="feature-card"><div class="feature-icon"><i class="fas fa-envelope"></i></div><h3>Automated Confirmation</h3><p>Instant email confirmations and calendar invites for attendees.</p></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-envelope"></i></div><h3>Email Verification</h3><p>6-digit security code sent to your email</p><div class="live-counter" id="liveRegCount">0</div><div class="counter-label">Verified users</div></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Secure Registration</h3><p>Two-step verification process</p><div class="live-counter" id="analyticsCounter">0</div><div class="counter-label">Protected accounts</div></div>
+      <div class="feature-card"><div class="feature-icon"><i class="fas fa-check-double"></i></div><h3>Instant Confirmation</h3><p>Email + verification code delivered</p><div class="live-counter"><i class="fas fa-check-circle" style="color:#059669; font-size:2rem;"></i></div></div>
     </div>
 
-    <!-- Event Details + Registration Form -->
     <div class="event-layout" id="register-section">
-      <!-- Left: Event Details -->
-      <div class="event-info" id="event-details">
+      <div class="event-info">
         <h2>Event Details</h2>
-        <ul class="info-list">
-          <li><i class="fas fa-calendar-week"></i> <span><strong>Date:</strong> June 18–20, 2026</span></li>
-          <li><i class="fas fa-map-marker-alt"></i> <span><strong>Venue:</strong> San Francisco Convention Center</span></li>
-          <li><i class="fas fa-clock"></i> <span><strong>Time:</strong> 9:00 AM – 6:00 PM (PDT)</span></li>
-          <li><i class="fas fa-ticket-alt"></i> <span><strong>Price:</strong> ₹299 Early Bird | ₹499 Regular</span></li>
+        <ul style="list-style:none; padding:0">
+          <li style="display:flex; gap:1rem; margin-bottom:1rem"><i class="fas fa-calendar-week"></i> <span><strong>Date:</strong> June 18–20, 2026</span></li>
+          <li style="display:flex; gap:1rem; margin-bottom:1rem"><i class="fas fa-map-marker-alt"></i> <span><strong>Venue:</strong> San Francisco Convention Center</span></li>
+          <li style="display:flex; gap:1rem; margin-bottom:1rem"><i class="fas fa-clock"></i> <span><strong>Time:</strong> 9:00 AM – 6:00 PM (PDT)</span></li>
+          <li style="display:flex; gap:1rem; margin-bottom:1rem"><i class="fas fa-ticket-alt"></i> <span><strong>Price:</strong> <span class="rupee-symbol">₹</span>24,999 Early | <span class="rupee-symbol">₹</span>41,999 Regular | <span class="rupee-symbol">₹</span>66,999 VIP</span></li>
         </ul>
-        <h3 style="margin: 1.5rem 0 0.75rem">✨ Featured Speakers</h3>
-        <div class="speaker-list">
-          <div class="speaker"><div class="speaker-avatar">PR</div><div><strong>Priya Ramesh</strong><br>CTO, NovaTech</div></div>
-          <div class="speaker"><div class="speaker-avatar">AK</div><div><strong>Arjun Khanna</strong><br>AI Researcher, DeepMind</div></div>
-          <div class="speaker"><div class="speaker-avatar">SM</div><div><strong>Sara Mendes</strong><br>Founder, Web3 Labs</div></div>
-        </div>
-        <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--gray-600);"><i class="fas fa-check-circle" style="color: var(--success);"></i> Certificate of participation included</p>
+        <h3 style="margin:1.5rem 0 0.75rem">✨ Featured Speakers</h3>
+        <div><div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem"><div style="background:var(--primary-light); width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center">PR</div><div><strong>Priya Ramesh</strong><br>CTO, NovaTech</div></div></div>
+        <div><div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem"><div style="background:var(--primary-light); width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center">AK</div><div><strong>Arjun Khanna</strong><br>AI Researcher</div></div></div>
+        <div class="venue-image"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=300&fit=crop" alt="Auditorium"><div class="image-caption"><i class="fas fa-microphone-alt"></i> Main Stage – TechConf 2026</div></div>
       </div>
 
-      <!-- Right: Registration Form -->
       <div class="reg-card" id="formSection">
         <h2>Secure Your Seat</h2>
-        <p>Fill out the form below to register for TechConf 2026</p>
+        <p>Verify your email with a security code</p>
+        
+        <div class="form-group"><label>Full Name <span class="required">*</span></label><input type="text" id="fullname"><span class="error-msg" id="nameError">Enter full name</span></div>
+        <div class="form-group"><label>Email <span class="required">*</span></label><input type="email" id="email"><span class="error-msg" id="emailError">Valid email required</span><span class="valid-msg" id="emailValid">✓ Valid email</span></div>
+        <div class="form-group"><label>Mobile <span class="required">*</span></label><input type="tel" id="mobile"><span class="error-msg" id="mobileError">8-15 digits</span></div>
         
         <div class="form-group">
-          <label>Full Name <span class="required">*</span></label>
-          <input type="text" id="fullname" placeholder="Alex Johnson">
-          <span class="error-msg" id="nameError">Please enter your full name.</span>
+          <label>Password <span class="required">*</span></label>
+          <div class="password-wrapper"><input type="password" id="password"><button type="button" class="toggle-password" id="togglePassword"><i class="fas fa-eye-slash"></i></button></div>
+          <span class="error-msg" id="passwordError">8+ chars, uppercase, lowercase, number</span>
+          <div class="password-strength"><div class="strength-bar"><div class="strength-bar-fill" id="strengthFill"></div></div><span id="strengthText">Enter password</span></div>
         </div>
         
         <div class="form-group">
-          <label>Email Address <span class="required">*</span></label>
-          <input type="email" id="email" placeholder="hello@example.com">
-          <span class="error-msg" id="emailError">Please enter a valid email address.</span>
-          <span class="valid-msg" id="emailValid">✓ Email format looks good!</span>
+          <label>Confirm Password</label>
+          <div class="password-wrapper"><input type="password" id="confirmPassword"><button type="button" class="toggle-password" id="toggleConfirm"><i class="fas fa-eye-slash"></i></button></div>
+          <span class="error-msg" id="confirmError">Passwords don't match</span>
+          <span class="valid-msg" id="confirmValid">✓ Match</span>
         </div>
         
-        <div class="form-group">
-          <label>Mobile Number <span class="required">*</span></label>
-          <input type="tel" id="mobile" placeholder="+1 123 456 7890">
-          <span class="error-msg" id="mobileError">Enter a valid mobile number (8-15 digits).</span>
-          <span class="valid-msg" id="mobileValid">✓ Valid mobile number format.</span>
-        </div>
+        <div class="form-group"><label>Ticket Type</label><select id="ticketType"><option>Early Bird – ₹24,999</option><option>Regular – ₹41,999</option><option>VIP Pass – ₹66,999</option></select></div>
+        <div class="form-group"><label>Referral</label><select id="referral"><option>Social Media</option><option>Friend</option><option>Online Ad</option></select></div>
         
-        <div class="form-group">
-          <label>Create Password <span class="required">*</span></label>
-          <input type="password" id="password" placeholder="Create a strong password">
-          <span class="error-msg" id="passwordError">Password must be at least 8 characters with uppercase, lowercase & number.</span>
-          <div class="password-strength">
-            <div class="strength-bar"><div class="strength-bar-fill" id="strengthFill"></div></div>
-            <span class="strength-text" id="strengthText">Enter password</span>
+        <!-- Verification Section -->
+        <div class="verification-section" id="verificationSection">
+          <label><i class="fas fa-key"></i> Verification Code</label>
+          <div class="code-input-group">
+            <input type="text" id="verificationCode" placeholder="6-digit code" maxlength="6" autocomplete="off">
+            <button class="verify-code-btn" id="verifyCodeBtn">Verify</button>
           </div>
+          <div class="resend-code" id="resendCodeBtn">Resend verification code</div>
+          <div class="verification-status" id="verificationStatus"></div>
         </div>
         
-        <div class="form-group">
-          <label>Confirm Password <span class="required">*</span></label>
-          <input type="password" id="confirmPassword" placeholder="Confirm your password">
-          <span class="error-msg" id="confirmError">Passwords do not match.</span>
-          <span class="valid-msg" id="confirmValid">✓ Passwords match.</span>
-        </div>
-        
-        <div class="form-group">
-          <label>Ticket Type</label>
-          <select id="ticketType">
-            <option value="Early Bird — ₹299">🎟️ Early Bird – ₹299</option>
-            <option value="Regular — ₹499">🎫 Regular – ₹499</option>
-            <option value="VIP Pass — ₹799">👑 VIP Pass – ₹799</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label>How did you hear about us?</label>
-          <select id="referral">
-            <option value="Social Media">Social Media</option>
-            <option value="Friend/Colleague">Friend/Colleague</option>
-            <option value="Online Ad">Online Ad</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label>Additional Notes (Optional)</label>
-          <textarea id="notes" rows="2" placeholder="Dietary restrictions, accessibility needs, or questions..."></textarea>
-        </div>
-        
-        <button class="submit-btn" id="submitBtn">Register Now <span class="spinner"></span> <i class="fas fa-arrow-right"></i></button>
+        <button class="submit-btn" id="submitBtn" disabled>Complete Registration <i class="fas fa-arrow-right"></i></button>
         <div id="firebaseError" class="firebase-error"></div>
       </div>
     </div>
 
-    <!-- Success Message -->
     <div class="success-box" id="successBox">
       <div class="success-icon"><i class="fas fa-check-circle"></i></div>
       <h3>Registration Successful!</h3>
-      <p>Thank you for registering for TechConf 2026.<br>A confirmation email has been sent to your inbox.</p>
+      <p>✅ Email verified! Your registration is confirmed.<br>A confirmation email has been sent.</p>
       <div id="docIdDisplay" class="ticket-id"></div>
     </div>
 
-    <!-- CTA Section -->
-    <div class="cta-section">
-      <h2>Ready to shape the future?</h2>
-      <p>Join thousands of innovators already registered.</p>
-      <button class="btn-outline" style="background: white; color: var(--dark); margin-top: 1rem; border: none;" onclick="document.getElementById('register-section').scrollIntoView({behavior: 'smooth'})">Register Now →</button>
-    </div>
+    <div class="cta-section"><h2>Ready to shape the future?</h2><button class="btn-outline" style="background:white; color:var(--dark); border:none;" onclick="document.getElementById('register-section').scrollIntoView({behavior:'smooth'})">Register Now →</button></div>
   </div>
+  <footer class="footer"><p>© 2026 TechConf • Email verification + secure registration</p></footer>
 
-  <footer class="footer">
-    <p>© 2026 TechConf. All rights reserved. Built with Firebase.</p>
-    <p style="margin-top: 0.5rem;"><a href="#" style="color: var(--gray-400); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: var(--gray-400); text-decoration: none;">Terms of Service</a></p>
-  </footer>
-
-  <!-- Firebase Configuration and Main Script -->
   <script type="module">
-    // ============================================================
-    // 🔥 FIREBASE CONFIGURATION - REPLACE WITH YOUR OWN!
-    // ============================================================
-    // To get your config:
-    // 1. Go to https://console.firebase.google.com/
-    // 2. Create a new project or select existing one
-    // 3. Add a web app (click the web icon </>)
-    // 4. Copy the configuration object below
-    // 5. Enable Firestore Database in test mode
-    
-   const firebaseConfig = {
-  apiKey: "AIzaSyCK74_sA2tnd6U957bKKhGlD2GoQqvVJrs",
-  authDomain: "tech-conference-2026.firebaseapp.com",
-  projectId: "tech-conference-2026",
-  storageBucket: "tech-conference-2026.firebasestorage.app",
-  messagingSenderId: "339554087189",
-  appId: "1:339554087189:web:9908fbcbc5a15bd839391c",
-  measurementId: "G-11EHMGQ124"
-};
-    
-    // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
     
-    // Initialize Firebase
-    let db;
-    try {
-      const app = initializeApp(firebaseConfig);
-      db = getFirestore(app);
-      console.log("✅ Firebase connected successfully!");
-    } catch (error) {
-      console.error("❌ Firebase config error:", error);
-      document.getElementById('firebaseError').innerHTML = "⚠️ Firebase configuration error. Please check your Firebase credentials.";
-      document.getElementById('firebaseError').classList.add('show');
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyCK74_sA2tnd6U957bKKhGlD2GoQqvVJrs",
+      authDomain: "tech-conference-2026.firebaseapp.com",
+      projectId: "tech-conference-2026",
+      storageBucket: "tech-conference-2026.firebasestorage.app",
+      messagingSenderId: "339554087189",
+      appId: "1:339554087189:web:9908fbcbc5a15bd839391c"
+    };
     
-    // DOM Elements
-    const fullnameInput = document.getElementById('fullname');
-    const emailInput = document.getElementById('email');
-    const mobileInput = document.getElementById('mobile');
-    const passwordInput = document.getElementById('password');
-    const confirmInput = document.getElementById('confirmPassword');
-    const ticketTypeSelect = document.getElementById('ticketType');
-    const referralSelect = document.getElementById('referral');
-    const notesTextarea = document.getElementById('notes');
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    emailjs.init("iBzblf8pVwdL1dFHO");
+    
+    // Real-time counter
+    onSnapshot(collection(db, "registrations"), (snapshot) => {
+      const count = snapshot.size;
+      document.getElementById('liveRegCount').innerText = count;
+      document.getElementById('analyticsCounter').innerText = count;
+      document.getElementById('heroRegCount').innerText = count;
+    });
+    
+    // DOM elements
+    const fullname = document.getElementById('fullname');
+    const email = document.getElementById('email');
+    const mobile = document.getElementById('mobile');
+    const password = document.getElementById('password');
+    const confirmPwd = document.getElementById('confirmPassword');
     const submitBtn = document.getElementById('submitBtn');
+    const verificationSection = document.getElementById('verificationSection');
+    const verificationCodeInput = document.getElementById('verificationCode');
+    const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+    const resendBtn = document.getElementById('resendCodeBtn');
+    const verificationStatus = document.getElementById('verificationStatus');
     const formSection = document.getElementById('formSection');
     const successBox = document.getElementById('successBox');
-    const firebaseErrorDiv = document.getElementById('firebaseError');
-    const docIdDisplay = document.getElementById('docIdDisplay');
-
-    // Validation Functions
-    function validateEmail(email) {
-      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}₹/.test(email.trim());
-    }
-
-    function validateMobile(mobile) {
-      let digits = mobile.replace(/[\s\-\+\(\)]/g, '');
-      if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2);
-      return digits.length >= 8 && digits.length <= 15 && /^\d+₹/.test(digits);
-    }
-
-    function validatePasswordStrength(password) {
-      let strength = 0;
-      if (password.length >= 8) strength++;
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[a-z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      return strength >= 3 && password.length >= 8;
-    }
-
-    function updatePasswordStrength() {
-      const password = passwordInput.value;
-      const isValid = validatePasswordStrength(password);
-      const fillBar = document.getElementById('strengthFill');
-      const strengthText = document.getElementById('strengthText');
-      
-      if (password.length === 0) {
-        fillBar.style.width = '0%';
-        strengthText.textContent = 'Enter password';
-      } else if (password.length < 8) {
-        fillBar.style.width = '25%';
-        fillBar.style.background = 'var(--error)';
-        strengthText.textContent = 'Too short';
-      } else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password)) {
-        fillBar.style.width = '50%';
-        fillBar.style.background = 'var(--warning)';
-        strengthText.textContent = 'Add uppercase & number';
-      } else {
-        fillBar.style.width = '100%';
-        fillBar.style.background = 'var(--success)';
-        strengthText.textContent = 'Strong';
-      }
-      
-      const passwordError = document.getElementById('passwordError');
-      if (password.length > 0 && !isValid) {
-        passwordError.classList.add('show');
-      } else {
-        passwordError.classList.remove('show');
-      }
-      return isValid;
-    }
-
-    function validatePasswordsMatch() {
-      const password = passwordInput.value;
-      const confirm = confirmInput.value;
-      const confirmError = document.getElementById('confirmError');
-      const confirmValid = document.getElementById('confirmValid');
-      
-      if (confirm.length === 0) {
-        confirmError.classList.remove('show');
-        confirmValid.classList.remove('show');
-        return false;
-      }
-      
-      if (password === confirm && password.length > 0) {
-        confirmError.classList.remove('show');
-        confirmValid.classList.add('show');
-        return true;
-      } else {
-        confirmError.classList.add('show');
-        confirmValid.classList.remove('show');
-        return false;
-      }
-    }
-
-    function setFieldError(fieldId, hasError, isValid = false) {
-      const input = document.getElementById(fieldId);
-      const errorSpan = document.getElementById(fieldId + 'Error');
-      const validSpan = document.getElementById(fieldId + 'Valid');
-      
-      if (input) {
-        if (hasError) {
-          input.classList.add('error');
-          input.classList.remove('valid');
-        } else if (isValid) {
-          input.classList.remove('error');
-          input.classList.add('valid');
-        } else {
-          input.classList.remove('error', 'valid');
-        }
-      }
-      
-      if (errorSpan && validSpan) {
-        if (hasError) {
-          errorSpan.classList.add('show');
-          validSpan.classList.remove('show');
-        } else if (isValid) {
-          errorSpan.classList.remove('show');
-          validSpan.classList.add('show');
-        } else {
-          errorSpan.classList.remove('show');
-          validSpan.classList.remove('show');
-        }
-      }
-    }
-
-    function validateName() {
-      const isValid = fullnameInput.value.trim().length >= 2;
-      setFieldError('fullname', !isValid, isValid);
-      return isValid;
-    }
-
-    function validateEmailField() {
-      const email = emailInput.value;
-      const isValid = email.length > 0 && validateEmail(email);
-      setFieldError('email', email.length > 0 && !isValid, isValid && email.length > 0);
-      return isValid;
-    }
-
-    function validateMobileField() {
-      const mobile = mobileInput.value;
-      const isValid = mobile.length > 0 && validateMobile(mobile);
-      setFieldError('mobile', mobile.length > 0 && !isValid, isValid && mobile.length > 0);
-      return isValid;
-    }
-
-    function validateAllFields() {
-      return validateName() && validateEmailField() && validateMobileField() && 
-             updatePasswordStrength() && validatePasswordsMatch();
-    }
-
-    // Event Listeners
-    fullnameInput.addEventListener('input', validateName);
-    emailInput.addEventListener('input', validateEmailField);
-    mobileInput.addEventListener('input', validateMobileField);
-    passwordInput.addEventListener('input', () => {
-      updatePasswordStrength();
-      validatePasswordsMatch();
+    
+    let storedVerificationCode = null;
+    let isEmailVerified = false;
+    let currentEmailForVerification = '';
+    
+    // Password visibility
+    document.getElementById('togglePassword').addEventListener('click', () => {
+      const pwd = document.getElementById('password');
+      const icon = document.querySelector('#togglePassword i');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+      icon.classList.toggle('fa-eye-slash');
+      icon.classList.toggle('fa-eye');
     });
-    confirmInput.addEventListener('input', validatePasswordsMatch);
-
-    // Save to Firebase
-    async function saveToFirebase(data) {
-      if (!db) throw new Error("Firebase not initialized");
-      const registrationsRef = collection(db, "registrations");
-      const docRef = await addDoc(registrationsRef, {
-        ...data,
-        registeredAt: serverTimestamp(),
-        status: "confirmed"
-      });
-      return docRef.id;
+    document.getElementById('toggleConfirm').addEventListener('click', () => {
+      const pwd = document.getElementById('confirmPassword');
+      const icon = document.querySelector('#toggleConfirm i');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+      icon.classList.toggle('fa-eye-slash');
+      icon.classList.toggle('fa-eye');
+    });
+    
+    // Validation helpers
+    function validateEmailFormat(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+    function validateMobile(m) { return m.replace(/\D/g,'').length >= 8 && m.replace(/\D/g,'').length <= 15; }
+    function validatePasswordStrength(p) { return p.length >= 8 && /[A-Z]/.test(p) && /[a-z]/.test(p) && /[0-9]/.test(p); }
+    
+    function updateStrength() {
+      const pwd = password.value;
+      const fill = document.getElementById('strengthFill');
+      const txt = document.getElementById('strengthText');
+      if(!pwd) { fill.style.width='0%'; txt.innerText='Enter password'; }
+      else if(pwd.length<8) { fill.style.width='30%'; fill.style.background='var(--error)'; txt.innerText='Weak'; }
+      else if(validatePasswordStrength(pwd)) { fill.style.width='100%'; fill.style.background='var(--success)'; txt.innerText='Strong'; }
+      else { fill.style.width='60%'; fill.style.background='var(--warning)'; txt.innerText='Medium'; }
     }
-
-    // Submit Handler
-    async function handleRegistration(e) {
-      e.preventDefault();
-      firebaseErrorDiv.classList.remove('show');
-      
-      if (!validateAllFields()) {
-        firebaseErrorDiv.textContent = 'Please fix all errors before submitting.';
-        firebaseErrorDiv.classList.add('show');
+    
+    function checkFormValidity() {
+      const nameValid = fullname.value.trim().length >= 2;
+      const emailValid = email.value && validateEmailFormat(email.value);
+      const mobileValid = mobile.value && validateMobile(mobile.value);
+      const pwdValid = validatePasswordStrength(password.value);
+      const matchValid = password.value === confirmPwd.value && password.value.length > 0;
+      const allValid = nameValid && emailValid && mobileValid && pwdValid && matchValid;
+      if(allValid && email.value !== currentEmailForVerification) {
+        isEmailVerified = false;
+        verificationSection.classList.remove('show');
+        submitBtn.disabled = true;
+      }
+      return allValid;
+    }
+    
+    [fullname, email, mobile, password, confirmPwd].forEach(el => el.addEventListener('input', () => {
+      const valid = checkFormValidity();
+      if(valid && !isEmailVerified) {
+        verificationSection.classList.add('show');
+      }
+    }));
+    
+    password.addEventListener('input', updateStrength);
+    confirmPwd.addEventListener('input', () => {
+      const match = password.value === confirmPwd.value;
+      document.getElementById('confirmError').classList.toggle('show', !match && confirmPwd.value.length>0);
+      document.getElementById('confirmValid').classList.toggle('show', match && confirmPwd.value.length>0);
+      checkFormValidity();
+    });
+    
+    // Send verification code via EmailJS
+    async function sendVerificationCode(emailAddr, userName) {
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      storedVerificationCode = code;
+      currentEmailForVerification = emailAddr;
+      try {
+        await emailjs.send("service_9mqtkf9", "template_50h8g1d", {
+          to_email: emailAddr,
+          to_name: userName || "Attendee",
+          verification_code: code,
+          event_name: "TechConf 2026"
+        });
+        verificationStatus.innerHTML = '<span style="color:var(--success)">✓ Verification code sent to your email!</span>';
+        return true;
+      } catch(err) {
+        verificationStatus.innerHTML = '<span style="color:var(--error)">Failed to send code. Check console.</span>';
+        return false;
+      }
+    }
+    
+    // Trigger send when user clicks "Resend" or when email field is validated first time
+    let verificationRequested = false;
+    email.addEventListener('blur', async () => {
+      if(validateEmailFormat(email.value) && fullname.value.trim().length >= 2 && !verificationRequested) {
+        verificationRequested = true;
+        await sendVerificationCode(email.value, fullname.value.trim());
+      }
+    });
+    
+    resendBtn.addEventListener('click', async () => {
+      if(validateEmailFormat(email.value)) {
+        await sendVerificationCode(email.value, fullname.value.trim());
+      } else {
+        verificationStatus.innerHTML = '<span style="color:var(--error)">Enter valid email first</span>';
+      }
+    });
+    
+    verifyCodeBtn.addEventListener('click', () => {
+      const enteredCode = verificationCodeInput.value.trim();
+      if(enteredCode === storedVerificationCode) {
+        isEmailVerified = true;
+        verificationStatus.innerHTML = '<span style="color:var(--success)">✓ Email verified successfully!</span>';
+        submitBtn.disabled = false;
+        verificationCodeInput.disabled = true;
+        verifyCodeBtn.disabled = true;
+      } else {
+        verificationStatus.innerHTML = '<span style="color:var(--error)">✗ Invalid verification code. Try again.</span>';
+        isEmailVerified = false;
+        submitBtn.disabled = true;
+      }
+    });
+    
+    // Final registration to Firebase
+    async function handleRegistration() {
+      if(!isEmailVerified) {
+        document.getElementById('firebaseError').innerHTML = 'Please verify your email first.';
+        document.getElementById('firebaseError').classList.add('show');
         return;
       }
       
-      const registrationData = {
-        fullName: fullnameInput.value.trim(),
-        email: emailInput.value.trim().toLowerCase(),
-        mobile: mobileInput.value.trim(),
-        ticketType: ticketTypeSelect.value,
-        referralSource: referralSelect.value,
-        additionalNotes: notesTextarea.value.trim() || "",
-        registeredAtClient: new Date().toISOString()
+      const regData = {
+        fullName: fullname.value.trim(),
+        email: email.value.trim().toLowerCase(),
+        mobile: mobile.value.trim(),
+        ticketType: document.getElementById('ticketType').value,
+        referralSource: document.getElementById('referral').value,
+        emailVerified: true,
+        registeredAt: serverTimestamp(),
+        status: "confirmed"
       };
       
       submitBtn.classList.add('loading');
-      
       try {
-        const docId = await saveToFirebase(registrationData);
-        docIdDisplay.textContent = `Registration ID: ₹{docId.substring(0, 8)}...`;
+        const docRef = await addDoc(collection(db, "registrations"), regData);
+        document.getElementById('docIdDisplay').textContent = `Registration ID: ${docRef.id.substring(0,8)}... | Email verified`;
         formSection.style.display = 'none';
         successBox.classList.add('show');
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        console.log("✅ Saved to Firebase! ID:", docId);
-      } catch (error) {
-        firebaseErrorDiv.innerHTML = `❌ Failed to save: ₹{error.message}. Check Firebase config.`;
-        firebaseErrorDiv.classList.add('show');
+      } catch(error) {
+        document.getElementById('firebaseError').innerHTML = `❌ Registration failed: ${error.message}`;
+        document.getElementById('firebaseError').classList.add('show');
       } finally {
         submitBtn.classList.remove('loading');
       }
     }
     
     submitBtn.addEventListener('click', handleRegistration);
-    
-    console.log("🚀 Website ready! Registrations will appear in Firebase Console → Firestore → registrations");
+    updateStrength();
   </script>
 </body>
 </html>
